@@ -15,6 +15,7 @@ export default function Home() {
     { data: "todo 2", id: "2", completed: true },
     { data: "todo 3", id: "3", completed: false },
   ]);
+  const [filteredTodos, setFilteredTodos] = useState<TodoType[]>([]);
 
   const addTodo = (todo: string) => {
     const newTodo = {
@@ -37,11 +38,50 @@ export default function Home() {
     setTodos(newTodos);
   };
 
+  const handleFilter = (filter: string) => {
+    switch (filter) {
+      case "all":
+        return setFilteredTodos([]);
+      case "active":
+        return setFilteredTodos(todos.filter((todo) => !todo.completed));
+      case "completed":
+        return setFilteredTodos(todos.filter((todo) => todo.completed));
+      default:
+        return todos;
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1>Todo List</h1>
+      <div className="flex flex-row gap-3">
+        <button
+          onClick={() => {
+            handleFilter("all");
+          }}
+          className="bg-blue-500 text-white p-2 mt-2"
+        >
+          All
+        </button>
+        <button
+          onClick={() => {
+            handleFilter("active");
+          }}
+          className="bg-blue-500 text-white p-2 mt-2"
+        >
+          Active
+        </button>
+        <button
+          onClick={() => {
+            handleFilter("completed");
+          }}
+          className="bg-blue-500 text-white p-2 mt-2"
+        >
+          Completed
+        </button>
+      </div>
       <TodoList
-        todos={todos}
+        todos={filteredTodos.length > 0 ? filteredTodos : todos}
         deleteTodo={deleteTodo}
         completeTodo={completeTodo}
       />
