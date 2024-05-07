@@ -3,8 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+const URL = `${process.env.API_BASE}/todo/`;
+
 export async function addTodo(formData: FormData) {
-  const res = await fetch("http://localhost:8000/todo/", {
+  const res = await fetch(URL, {
     method: "POST",
     body: JSON.stringify({ text: formData.get("todo") }),
   });
@@ -28,7 +30,7 @@ export async function filter(query: string) {
 }
 
 export async function completeTodo(id: number) {
-  const res = await fetch(`http://localhost:8000/todo/${id}/`, {
+  const res = await fetch(`${URL}${id}/`, {
     method: "PATCH",
     body: JSON.stringify({ completed: true }),
   });
@@ -41,7 +43,7 @@ export async function completeTodo(id: number) {
 }
 
 export async function deleteTodo(id: number) {
-  const res = await fetch(`http://localhost:8000/todo/${id}/`, {
+  const res = await fetch(`${URL}${id}/`, {
     method: "DELETE",
   });
 
@@ -53,7 +55,7 @@ export async function deleteTodo(id: number) {
 }
 
 export async function clearAllCompletedTodo() {
-  const res = await fetch("http://localhost:8000/todo/completed/", {
+  const res = await fetch(`${URL}completed/`, {
     method: "DELETE",
   });
 

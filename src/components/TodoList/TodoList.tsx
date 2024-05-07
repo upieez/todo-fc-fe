@@ -1,9 +1,8 @@
 "use client";
 import Todo from "../Todo";
-import { TodoType } from "../TodoContainer";
 
 type TodoListProps = {
-  todos: TodoType[];
+  todos: { id: number; text: string; completed: boolean }[];
 };
 
 export default function TodoList({ todos }: TodoListProps) {

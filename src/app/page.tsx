@@ -1,19 +1,11 @@
 import TodoFilters from "@/components/TodoFilters";
 import TodoList from "@/components/TodoList";
-import TodoContainer from "../components/TodoContainer";
 import TodoInput from "@/components/TodoInput";
 import DelButton from "@/components/DelButton";
-
-function queryBuilder(url, searchParams) {
-  const params = new URLSearchParams(searchParams).toString();
-  if (Object.keys(params).length > 0) {
-    url += "?" + params;
-  }
-  return url;
-}
+import queryBuilder from "@/utils/queryBuilder";
 
 async function getTodos(searchParams: URLSearchParams) {
-  const URL = "http://localhost:8000/todo/";
+  const URL = `${process.env.API_BASE}/todo/`;
   const url = queryBuilder(URL, searchParams);
 
   const res = await fetch(url);
@@ -25,8 +17,12 @@ async function getTodos(searchParams: URLSearchParams) {
   return res.json();
 }
 
-export default async function Home(request) {
-  const { data } = await getTodos(request.searchParams);
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: URLSearchParams;
+}) {
+  const { data } = await getTodos(searchParams);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
