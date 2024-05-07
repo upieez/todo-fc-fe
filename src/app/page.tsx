@@ -39,6 +39,11 @@ export default function Home() {
     setTodos(newTodos);
   };
 
+  const clearCompleted = () => {
+    const newTodos = todos.filter((todo) => !todo.completed);
+    setTodos(newTodos);
+  };
+
   const handleFilter = (filter: string) => {
     switch (filter) {
       case "all":
@@ -55,6 +60,13 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1>Todo List</h1>
+      {/* TODO: Destructive action, should prompt user if they are sure */}
+      <button
+        onClick={clearCompleted}
+        className="bg-red-500 text-white p-2 mt-2"
+      >
+        Clear Completed
+      </button>
       <TodoFilters handleFilter={handleFilter} />
       <TodoList
         todos={filteredTodos.length > 0 ? filteredTodos : todos}
