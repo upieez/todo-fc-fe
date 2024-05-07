@@ -2,6 +2,7 @@
 import { useState } from "react";
 import TodoInput from "./TodoInput";
 import TodoList from "./TodoList";
+import TodoFilters from "./TodoFilters";
 
 export type TodoType = {
   data: string;
@@ -54,32 +55,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1>Todo List</h1>
-      <div className="flex flex-row gap-3">
-        <button
-          onClick={() => {
-            handleFilter("all");
-          }}
-          className="bg-blue-500 text-white p-2 mt-2"
-        >
-          All
-        </button>
-        <button
-          onClick={() => {
-            handleFilter("active");
-          }}
-          className="bg-blue-500 text-white p-2 mt-2"
-        >
-          Active
-        </button>
-        <button
-          onClick={() => {
-            handleFilter("completed");
-          }}
-          className="bg-blue-500 text-white p-2 mt-2"
-        >
-          Completed
-        </button>
-      </div>
+      <TodoFilters handleFilter={handleFilter} />
       <TodoList
         todos={filteredTodos.length > 0 ? filteredTodos : todos}
         deleteTodo={deleteTodo}
