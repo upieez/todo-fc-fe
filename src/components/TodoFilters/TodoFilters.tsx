@@ -1,29 +1,27 @@
+"use client";
+import { filter } from "@/utils/actions";
 import { ReactNode } from "react";
 
-type TodoFilterProps = {
-  handleFilter: (type: "all" | "active" | "completed") => void;
-};
-
-export default function TodoFilters({ handleFilter }: TodoFilterProps) {
+export default function TodoFilters() {
   return (
     <div className="flex flex-row gap-3">
       <FilterButton
         onClick={() => {
-          handleFilter("all");
+          filter("all");
         }}
       >
         All
       </FilterButton>
       <FilterButton
         onClick={() => {
-          handleFilter("active");
+          filter("active");
         }}
       >
         Active
       </FilterButton>
       <FilterButton
         onClick={() => {
-          handleFilter("completed");
+          filter("completed");
         }}
       >
         Completed
