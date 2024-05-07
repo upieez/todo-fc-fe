@@ -1,79 +1,22 @@
-"use client";
-import { useState } from "react";
-import TodoInput from "./TodoInput";
-import TodoList from "./TodoList";
-import TodoFilters from "./TodoFilters";
+import TodoContainer from "./TodoContainer";
 
-export type TodoType = {
-  data: string;
-  id: string;
-  completed: boolean;
-};
+async function getTodos() {
+  const res = await fetch("http://localhost:8000/todo");
 
-export default function Home() {
-  const [todos, setTodos] = useState<TodoType[]>([
-    { data: "todo 1", id: "1", completed: false },
-    { data: "todo 2", id: "2", completed: true },
-    { data: "todo 3", id: "3", completed: false },
-  ]);
-  const [filteredTodos, setFilteredTodos] = useState<TodoType[]>([]);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
 
-  const addTodo = (todo: string) => {
-    const newTodo = {
-      data: todo,
-      id: crypto.randomUUID(),
-      completed: false,
-    };
-    setTodos([...todos, newTodo]);
-  };
+  return res.text();
+}
 
-  const deleteTodo = (index: number) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
-
-  const completeTodo = (index: number) => {
-    const newTodos = [...todos];
-    newTodos[index].completed = !newTodos[index].completed;
-    setTodos(newTodos);
-  };
-
-  const clearCompleted = () => {
-    const newTodos = todos.filter((todo) => !todo.completed);
-    setTodos(newTodos);
-  };
-
-  const handleFilter = (filter: string) => {
-    switch (filter) {
-      case "all":
-        return setFilteredTodos([]);
-      case "active":
-        return setFilteredTodos(todos.filter((todo) => !todo.completed));
-      case "completed":
-        return setFilteredTodos(todos.filter((todo) => todo.completed));
-      default:
-        return todos;
-    }
-  };
+export default async function Home() {
+  const data = await getTodos();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <h1>Todo List</h1>
-      {/* TODO: Destructive action, should prompt user if they are sure */}
-      <button
-        onClick={clearCompleted}
-        className="bg-red-500 text-white p-2 mt-2"
-      >
-        Clear Completed
-      </button>
-      <TodoFilters handleFilter={handleFilter} />
-      <TodoList
-        todos={filteredTodos.length > 0 ? filteredTodos : todos}
-        deleteTodo={deleteTodo}
-        completeTodo={completeTodo}
-      />
-      <TodoInput addTodo={addTodo} />
+      <TodoContainer data={data} />
     </main>
   );
 }

@@ -1,6 +1,5 @@
-"use client";
 import Todo from "../Todo";
-import { TodoType } from "../page";
+import { TodoType } from "../TodoContainer";
 
 type TodoListProps = {
   todos: TodoType[];
