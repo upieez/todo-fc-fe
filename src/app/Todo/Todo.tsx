@@ -13,7 +13,8 @@ export default function Todo({
   completed,
   completeTodo,
 }: TodoProp) {
-  const handleDelete = () => {
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     deleteTodo(index);
   };
 

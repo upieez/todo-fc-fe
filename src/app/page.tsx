@@ -19,7 +19,7 @@ export default function Home() {
   const addTodo = (todo: string) => {
     const newTodo = {
       data: todo,
-      id: Math.random().toString(),
+      id: crypto.randomUUID(),
       completed: false,
     };
     setTodos([...todos, newTodo]);
